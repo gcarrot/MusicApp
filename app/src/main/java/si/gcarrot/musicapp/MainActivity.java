@@ -3,6 +3,7 @@ package si.gcarrot.musicapp;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -27,93 +28,141 @@ public class MainActivity extends AppCompatActivity {
 
     private long musicID;
     private String CurrentPlay;
+    private String CurrentAlbum;
+    private String CurrentYear;
+    private long CurrentDurration;
     TextView currentTitle;
 
     ImageButton imgBtnPlay;
     ImageButton imgBtnPause;
     ImageButton imgBtnReplay;
+    ImageButton imgBtnList;
+    ImageButton imgBtnInfo;
+    ImageButton imgBtnDownload;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         context = this;
-
+        final Intent intent = getIntent();
         currentTitle = (TextView) findViewById(R.id.twCurrentTitle);
 
         imgBtnPlay = (ImageButton) findViewById(R.id.imgBtnPlay);
         imgBtnPause = (ImageButton) findViewById(R.id.imgBtnPause);
         imgBtnReplay = (ImageButton) findViewById(R.id.imgBtnReplay);
+        imgBtnList = (ImageButton) findViewById(R.id.imgBtnList);
 
-        ContentResolver contentResolver = getContentResolver();
-        Uri uri = android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-        Cursor cursor = contentResolver.query(uri, null, null, null, null);
-        if (cursor == null) {
-            // query failed, handle error.
-        } else if (!cursor.moveToFirst()) {
-            // no media on the device
-            Log.e("Urban", "No media on the device");
+        imgBtnInfo = (ImageButton) findViewById(R.id.imgBtnInfo);
+        imgBtnDownload = (ImageButton) findViewById(R.id.imgBtnDownload);
+
+
+        imgBtnList.setOnClickListener(new View.OnClickListener() {
+            // The code in this method will be executed when the numbers View is clicked on.
+            @Override
+            public void onClick(View view) {
+                if (mMediaPlayer != null) {
+                    mMediaPlayer.reset();
+                }
+
+                Intent i = new Intent(MainActivity.this, ListOfMusics.class);
+
+                startActivity(i);
+            }
+        });
+
+        imgBtnInfo.setOnClickListener(new View.OnClickListener() {
+            // The code in this method will be executed when the numbers View is clicked on.
+            @Override
+            public void onClick(View view) {
+                if (mMediaPlayer != null) {
+                    mMediaPlayer.reset();
+                }
+
+                Intent i = new Intent(MainActivity.this, MusicInfo.class);
+                if (intent.getExtras() != null) {
+                    i.putExtra("CurrentTitle", CurrentPlay);
+
+                    i.putExtra("CurrentAlbum", CurrentAlbum);
+                    i.putExtra("CurrentYear", CurrentYear);
+                    i.putExtra("CurrentDuration", CurrentDurration);
+                }
+                startActivity(i);
+            }
+        });
+
+        imgBtnDownload.setOnClickListener(new View.OnClickListener() {
+            // The code in this method will be executed when the numbers View is clicked on.
+            @Override
+            public void onClick(View view) {
+                if (mMediaPlayer != null) {
+                    mMediaPlayer.reset();
+                }
+
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://music")));
+                } catch (android.content.ActivityNotFoundException anfe) {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/music")));
+                }
+            }
+        });
+
+        if (intent.getExtras() != null) {
+            musicID = intent.getExtras().getLong("musicID");
+            CurrentPlay = intent.getExtras().getString("CurrentTitle");
+
+            CurrentAlbum = intent.getExtras().getString("CurrentAlbum");
+            CurrentYear = intent.getExtras().getString("CurrentYear");
+            CurrentDurration = intent.getExtras().getLong("CurrentDuration");
+
+            //long id = thisId;
+            Uri contentUri = ContentUris.withAppendedId(
+                    android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, musicID);
+
+            mMediaPlayer = new MediaPlayer();
+            mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            try {
+                mMediaPlayer.setDataSource(getApplicationContext(), contentUri);
+                mMediaPlayer.prepare();
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            imgBtnPlay.setOnClickListener(new View.OnClickListener() {
+                // The code in this method will be executed when the numbers View is clicked on.
+                @Override
+                public void onClick(View view) {
+                    mMediaPlayer.start();
+                    currentTitle.setText(CurrentPlay);
+                    Toast.makeText(MainActivity.this, getResources().getString(R.string.now_playing) + " " + CurrentPlay, Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            imgBtnPause.setOnClickListener(new View.OnClickListener() {
+                // The code in this method will be executed when the numbers View is clicked on.
+                @Override
+                public void onClick(View view) {
+                    mMediaPlayer.pause();
+                    Toast.makeText(MainActivity.this, getResources().getString(R.string.pause), Toast.LENGTH_SHORT).show();
+                }
+            });
+            imgBtnReplay.setOnClickListener(new View.OnClickListener() {
+                // The code in this method will be executed when the numbers View is clicked on.
+                @Override
+                public void onClick(View view) {
+                    mMediaPlayer.seekTo(0);
+                    mMediaPlayer.start();
+                    Toast.makeText(MainActivity.this, getResources().getString(R.string.replay), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
         } else {
-            int titleColumn = cursor.getColumnIndex(android.provider.MediaStore.Audio.Media.TITLE);
-            int idColumn = cursor.getColumnIndex(android.provider.MediaStore.Audio.Media._ID);
-            int ArtistColumn = cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST);
-            do {
-                long thisId = cursor.getLong(idColumn);
-                String thisTitle = cursor.getString(titleColumn);
-                String thisArtist = cursor.getString(ArtistColumn);
-
-                musicID = 37;
-                CurrentPlay = thisTitle;
-                // ...process entry...
-                Log.e("Urban", "thisTitle " + thisTitle + " - " + thisArtist + " -- " + thisId);
-            } while (cursor.moveToNext());
+            Toast.makeText(MainActivity.this, getResources().getString(R.string.select_music), Toast.LENGTH_SHORT).show();
+            /* Intent numbersIntent = new Intent(MainActivity.this, ListOfMusics.class);
+            startActivity(numbersIntent);*/
         }
-
-
-        //long id = thisId;
-        Uri contentUri = ContentUris.withAppendedId(
-                android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, musicID);
-
-        mMediaPlayer = new MediaPlayer();
-        mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        try {
-            mMediaPlayer.setDataSource(getApplicationContext(), contentUri);
-            mMediaPlayer.prepare();
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        imgBtnPlay.setOnClickListener(new View.OnClickListener() {
-            // The code in this method will be executed when the numbers View is clicked on.
-            @Override
-            public void onClick(View view) {
-                mMediaPlayer.start();
-                currentTitle.setText(CurrentPlay);
-                Toast.makeText(MainActivity.this, getResources().getString(R.string.now_playing) + " " + CurrentPlay, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        imgBtnPause.setOnClickListener(new View.OnClickListener() {
-            // The code in this method will be executed when the numbers View is clicked on.
-            @Override
-            public void onClick(View view) {
-                mMediaPlayer.pause();
-                Toast.makeText(MainActivity.this, getResources().getString(R.string.pause), Toast.LENGTH_SHORT).show();
-            }
-        });
-        imgBtnReplay.setOnClickListener(new View.OnClickListener() {
-            // The code in this method will be executed when the numbers View is clicked on.
-            @Override
-            public void onClick(View view) {
-                mMediaPlayer.seekTo(0);
-                mMediaPlayer.start();
-                Toast.makeText(MainActivity.this, getResources().getString(R.string.replay), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-       /* MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.sound_file_1);
-        mediaPlayer.start(); */
     }
 }

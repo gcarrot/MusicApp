@@ -4,5 +4,17 @@
     <string name="song_title">Song: </string>
     <string name="pause">Pause</string>
     <string name="replay">Replay</string>
+    <string name="duration">Duration: </string>
+
+    <string name="select_music">Please select music to play!</string>
+
+    <string name="current_music_info">Current music info:</string>
+    <string name="current_not_selected">Please fist select music from your list:</string>
+    <string name="info_title">Title: </string>
+    <string name="info_year">Year: </string>
+    <string name="info_album">Album: </string>
+    <string name="info_duration">Duration: </string>
+    <string name="error_nopermission">Some think went wrong. Check if you allow all permissions. </string>
+
 
 </resources>
