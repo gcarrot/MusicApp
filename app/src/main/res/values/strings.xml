@@ -16,5 +16,9 @@
     <string name="info_duration">Duration: </string>
     <string name="error_nopermission">Some think went wrong. Check if you allow all permissions. </string>
 
+    <string name="activity_now_playing">Activity is to show which music is currently playing.</string>
+    <string name="activity_list_music">Activity is to show which music it is on your phone.</string>
+    <string name="activity_music_info">Activity is to show current music info.</string>
+
 
 </resources>

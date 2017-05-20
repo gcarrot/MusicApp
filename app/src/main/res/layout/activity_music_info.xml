@@ -11,13 +11,20 @@
     tools:context="si.gcarrot.musicapp.MusicInfo">
 
     <TextView
+        android:text="@string/activity_music_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView4"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
         android:text="@string/current_music_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/textView3"
-        android:textColor="@android:color/black" />
+        android:textColor="@android:color/black"
+        android:layout_marginTop="20dp" />
 
     <LinearLayout
         android:orientation="vertical"
