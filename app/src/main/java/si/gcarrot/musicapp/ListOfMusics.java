@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -45,6 +46,17 @@ public class ListOfMusics extends AppCompatActivity {
 
 
         dataModels = new ArrayList<>();
+
+        FloatingActionButton myFab = (FloatingActionButton) findViewById(R.id.fab);
+        myFab.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://music")));
+                } catch (android.content.ActivityNotFoundException anfe) {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/music")));
+                }
+            }
+        });
 
 
         ContentResolver contentResolver = getContentResolver();
