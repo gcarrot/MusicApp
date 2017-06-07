@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">MusicApp</string>
+    <string name="music_list">Music list</string>
+    <string name="music_info">Current music info</string>
     <string name="now_playing">Now playing:</string>
     <string name="song_title">Song: </string>
     <string name="pause">Pause</string>
