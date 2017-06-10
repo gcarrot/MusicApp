@@ -11,35 +11,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="si.gcarrot.musicapp.MainActivity">
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/ic_media_play"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/imgBtnPlay" />
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/ic_media_pause"
-        android:id="@+id/imgBtnPause"
-        android:layout_marginRight="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_alignTop="@+id/imgBtnPlay"
-        android:layout_toLeftOf="@+id/imgBtnPlay"
-        android:layout_toStartOf="@+id/imgBtnPlay" />
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/ic_menu_rotate"
-        android:id="@+id/imgBtnReplay"
-        android:layout_marginLeft="27dp"
-        android:layout_marginStart="27dp"
-        android:layout_alignTop="@+id/imgBtnPlay"
-        android:layout_toRightOf="@+id/imgBtnPlay"
-        android:layout_toEndOf="@+id/imgBtnPlay" />
 
     <TextView
         android:text="@string/now_playing"
@@ -47,7 +18,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
+        android:layout_below="@+id/textView2"
+        android:layout_marginTop="80dp"
         android:textSize="@dimen/now_playing_big"
         android:id="@+id/textView" />
 
@@ -91,5 +63,57 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="50dp"
         android:id="@+id/textView2"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center" />
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/menuPlayer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="2dp"
+        app:cardElevation="8dp"
+        android:layout_marginTop="43dp"
+        android:layout_below="@+id/twCurrentTitle"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@android:drawable/ic_media_pause"
+                android:id="@+id/imgBtnPause"
+                android:layout_marginRight="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_alignTop="@+id/imgBtnPlay"
+                android:layout_toLeftOf="@+id/imgBtnPlay"
+                android:layout_toStartOf="@+id/imgBtnPlay"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@android:drawable/ic_media_play"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/imgBtnPlay"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@android:drawable/ic_menu_rotate"
+                android:id="@+id/imgBtnReplay"
+                android:layout_marginLeft="27dp"
+                android:layout_marginStart="27dp"
+                android:layout_alignTop="@+id/imgBtnPlay"
+                android:layout_toRightOf="@+id/imgBtnPlay"
+                android:layout_toEndOf="@+id/imgBtnPlay"
+                android:layout_weight="1" />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
 </RelativeLayout>

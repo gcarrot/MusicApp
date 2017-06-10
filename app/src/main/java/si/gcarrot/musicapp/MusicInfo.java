@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.concurrent.TimeUnit;
@@ -51,6 +54,30 @@ public class MusicInfo extends AppCompatActivity {
         } else {
             currentTitle.setText(getResources().getString(R.string.select_music));
         }
+
+        ImageButton imgBtnList = (ImageButton) findViewById(R.id.btnList);
+        imgBtnList.setOnClickListener(new View.OnClickListener() {
+            // The code in this method will be executed when the numbers View is clicked on.
+            @Override
+            public void onClick(View view) {
+
+                Intent i = new Intent(MusicInfo.this, ListOfMusics.class);
+
+                startActivity(i);
+            }
+        });
+
+        Button btnBack = (Button) findViewById(R.id.btnPlaying);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            // The code in this method will be executed when the numbers View is clicked on.
+            @Override
+            public void onClick(View view) {
+
+                Intent i = new Intent(MusicInfo.this, MainActivity.class);
+
+                startActivity(i);
+            }
+        });
 
     }
 }

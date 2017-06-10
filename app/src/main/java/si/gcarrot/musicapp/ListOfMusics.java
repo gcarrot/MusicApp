@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -43,6 +44,18 @@ public class ListOfMusics extends AppCompatActivity {
         final ArrayList<Long> songDuration = new ArrayList<>();
 
         tvTitleList = (TextView) findViewById(R.id.tvTitleList);
+
+        ImageButton imgBtnBack = (ImageButton) findViewById(R.id.imgBtnBack);
+        imgBtnBack.setOnClickListener(new View.OnClickListener() {
+            // The code in this method will be executed when the numbers View is clicked on.
+            @Override
+            public void onClick(View view) {
+
+                Intent i = new Intent(ListOfMusics.this, MainActivity.class);
+
+                startActivity(i);
+            }
+        });
 
 
         dataModels = new ArrayList<>();
